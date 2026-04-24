@@ -75,7 +75,7 @@ a,button{cursor:none;}
     radial-gradient(ellipse 60% 45% at 5% 88%, rgba(155,89,240,.22) 0%,transparent 55%),
     radial-gradient(ellipse 70% 70% at 50% 50%, rgba(7,26,62,.92) 0%,transparent 75%),
     radial-gradient(ellipse 50% 40% at 28% 32%, rgba(61,123,228,.12) 0%,transparent 50%);
-  transition:transform .08s linear;
+  /* FIXED: no transform, no parallax */
 }
 .grain{
   position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.018;
@@ -261,7 +261,7 @@ a,button{cursor:none;}
 @keyframes bounceY{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
 
 /* ══════════════════════════════════
-   LOCK OVERLAY — REDESIGNED
+   LOCK OVERLAY
 ══════════════════════════════════ */
 .lock-overlay{
   position:fixed;inset:0;
@@ -287,18 +287,15 @@ a,button{cursor:none;}
   text-align:center;
   max-width:min(340px,88vw);
   width:100%;
-
   box-shadow:
     0 0 0 1px rgba(61,123,228,.12),
     0 0 60px rgba(61,123,228,.2),
     0 30px 80px rgba(0,0,0,.7),
     inset 0 1px 0 rgba(168,200,255,.1),
     inset 0 -1px 0 rgba(0,0,0,.3);
-
   animation:lockPop .55s cubic-bezier(.34,1.56,.64,1) both;
   overflow:hidden;
 }
-
 .lock-box::before{
   content:'';position:absolute;inset:0;border-radius:24px;
   background:
@@ -306,8 +303,6 @@ a,button{cursor:none;}
     radial-gradient(ellipse 60% 40% at 80% 100%,rgba(155,89,240,.08) 0%,transparent 60%);
   pointer-events:none;
 }
-
-/* Animated shimmer top border */
 .lock-box::after{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:24px 24px 0 0;
   background:linear-gradient(90deg,transparent,rgba(61,123,228,.8),rgba(168,200,255,1),rgba(232,201,122,.9),rgba(168,200,255,1),rgba(61,123,228,.8),transparent);
@@ -315,10 +310,8 @@ a,button{cursor:none;}
   animation:shimmerBorder 3s linear infinite;
 }
 @keyframes shimmerBorder{to{background-position:200% 0;}}
-
 @keyframes lockPop{from{transform:scale(.82) translateY(22px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
 
-/* Lock icon planet */
 .lock-planet-wrap{
   position:relative;
   width:clamp(72px,16vw,90px);height:clamp(72px,16vw,90px);
@@ -370,7 +363,6 @@ a,button{cursor:none;}
   text-shadow:0 0 30px rgba(168,200,255,.25);
 }
 .lock-title span{color:var(--gold);}
-
 .lock-text{
   font-size:clamp(.72rem,1.8vw,.82rem);
   color:rgba(168,200,255,.62);
@@ -379,7 +371,6 @@ a,button{cursor:none;}
 }
 .lock-text strong{color:var(--gold);font-weight:400;}
 
-/* Countdown inside lock */
 .lock-countdown{
   display:flex;justify-content:center;gap:8px;
   margin-bottom:clamp(16px,3.5vw,22px);
@@ -406,7 +397,6 @@ a,button{cursor:none;}
 .lock-btn:hover::before{transform:translateX(0);}
 .lock-btn:hover{border-color:rgba(232,201,122,.5);color:var(--gold);}
 
-/* Stars inside lock box */
 .lock-stars{position:absolute;inset:0;border-radius:24px;pointer-events:none;overflow:hidden;}
 .lock-star{position:absolute;border-radius:50%;background:white;animation:lockStarTwinkle var(--d,2s) ease-in-out infinite;}
 @keyframes lockStarTwinkle{0%,100%{opacity:.1;}50%{opacity:.7;}}
@@ -419,21 +409,43 @@ a,button{cursor:none;}
 .p2-title{font-family:'Playfair Display',serif;font-size:var(--fs-lg);font-style:italic;color:var(--white);line-height:1.1;text-shadow:0 0 40px rgba(61,123,228,.38);}
 .p2-sub{font-size:var(--fs-xs);letter-spacing:4px;color:var(--stardust);opacity:.38;margin-top:8px;text-transform:uppercase;font-family:'Space Mono',monospace;}
 
-/* ── MASONRY GALLERY ── */
-.galaxy-grid{
-  columns:2;
-  column-gap:var(--gap);
-  margin-top:clamp(16px,3.5vw,24px);
+/* ── HAPPY BIRTHDAY BANNER ── */
+.hbd-banner{
+  text-align:center;
+  margin-bottom:clamp(12px,3vw,20px);
+  animation:fadeUp .7s .15s both;
 }
-@media(min-width:520px){.galaxy-grid{columns:3;}}
-@media(min-width:900px){.galaxy-grid{columns:4;}}
+.hbd-banner h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.2rem,4vw,2rem);
+  font-style:italic;
+  color:var(--gold);
+  text-shadow:0 0 30px var(--glow-gold),0 0 60px rgba(232,192,96,.25);
+  letter-spacing:2px;
+}
+.hbd-banner p{
+  font-family:'Space Mono',monospace;
+  font-size:var(--fs-xs);
+  letter-spacing:4px;
+  color:rgba(168,200,255,.45);
+  margin-top:5px;
+  text-transform:uppercase;
+}
+
+/* ── UNIFORM GRID GALLERY ── */
+.galaxy-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:var(--gap);
+  margin-top:clamp(12px,3vw,20px);
+}
+@media(min-width:480px){.galaxy-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.galaxy-grid{grid-template-columns:repeat(4,1fr);}}
 
 .star-card{
-  break-inside:avoid;
   position:relative;cursor:pointer;
   background:linear-gradient(160deg,#f8f4ff,#e8eeff);
   padding:clamp(5px,1.5vw,8px) clamp(5px,1.5vw,8px) clamp(20px,4.5vw,28px);
-  margin-bottom:var(--gap);
   transition:transform .5s cubic-bezier(.34,1.56,.64,1),box-shadow .5s;
   box-shadow:0 10px 34px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.28);
   animation:fadeUp .6s both;
@@ -444,7 +456,20 @@ a,button{cursor:none;}
 .star-card:nth-child(3n){transform:rotate(-.8deg);}
 .star-card:nth-child(4n){transform:rotate(1.5deg);}
 .star-card:hover{transform:rotate(0deg) scale(1.07) translateY(-5px) !important;z-index:10;box-shadow:0 28px 64px rgba(0,0,0,.7),0 0 28px rgba(61,123,228,.22);}
-.star-card img{width:100%;display:block;object-fit:cover;filter:saturate(.75) brightness(.85) contrast(1.05);transition:filter .45s;}
+
+/* UNIFORM image size */
+.star-card .img-wrap{
+  width:100%;
+  aspect-ratio:1/1;
+  overflow:hidden;
+}
+.star-card img{
+  width:100%;height:100%;
+  display:block;
+  object-fit:cover;
+  filter:saturate(.75) brightness(.85) contrast(1.05);
+  transition:filter .45s;
+}
 .star-card:hover img{filter:saturate(1.1) brightness(1.02) contrast(1.0);}
 .card-caption{text-align:center;margin-top:5px;font-family:'Space Mono',monospace;font-size:clamp(.4rem,1.1vw,.5rem);letter-spacing:2px;color:rgba(26,58,143,.5);text-transform:uppercase;}
 /* tape */
@@ -577,9 +602,6 @@ a,button{cursor:none;}
 .sparkle{position:fixed;pointer-events:none;z-index:9995;animation:sparkleAnim .9s ease-out forwards;font-size:clamp(9px,2.2vw,15px);}
 @keyframes sparkleAnim{0%{opacity:1;transform:translate(-50%,-50%) scale(0) rotate(0deg);}40%{opacity:1;transform:translate(-50%,-50%) scale(1.3) rotate(20deg);}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% - 50px)) scale(.3) rotate(40deg);}}
 
-/* ── CONFETTI ── */
-.confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;}
-
 /* ── FADE UP ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 
@@ -660,7 +682,6 @@ a,button{cursor:none;}
 </div>
 
 <div class="planet-sm"></div>
-<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
 
 <button class="music-btn" id="musicBtn" title="Toggle Music">
   <span id="musicIcon">♪</span>
@@ -680,14 +701,10 @@ a,button{cursor:none;}
   </div>
 </div>
 
-<!-- ══════════════════════════
-     LOCK OVERLAY — REDESIGNED
-══════════════════════════ -->
+<!-- LOCK OVERLAY -->
 <div id="lockOverlay" class="lock-overlay">
   <div class="lock-box">
-    <!-- Decorative stars inside box -->
     <div class="lock-stars" id="lockStars"></div>
-
     <div class="lock-planet-wrap">
       <div class="lock-planet-orbit">
         <div class="lock-orbit-dot"></div>
@@ -695,28 +712,23 @@ a,button{cursor:none;}
       <div class="lock-planet-ring"></div>
       <div class="lock-planet">🔒</div>
     </div>
-
     <h2 class="lock-title">Galaksi <span>Terkunci</span></h2>
     <p class="lock-text">
       Akses ke bagian ini akan terbuka<br>
-      tepat pada <strong>22 Mei 2026</strong> pukul 00.00 ✦<br><br>
-      Masih sedikit lagi sabar ya, sayang~
+      tepat pada <strong>22 Mei 2026</strong> pukul 00.00<br><br>
+      Masih sedikit lagi sabar ya, sayang
     </p>
-
     <div class="lock-countdown">
       <div class="lc-box"><span class="lc-num" id="lc-days">00</span><span class="lc-label">hari</span></div>
       <div class="lc-box"><span class="lc-num" id="lc-hours">00</span><span class="lc-label">jam</span></div>
       <div class="lc-box"><span class="lc-num" id="lc-mins">00</span><span class="lc-label">menit</span></div>
       <div class="lc-box"><span class="lc-num" id="lc-secs">00</span><span class="lc-label">detik</span></div>
     </div>
-
-    <button class="lock-btn" onclick="closeLockOverlay()">Oke, aku tunggu ✦</button>
+    <button class="lock-btn" onclick="closeLockOverlay()">Oke, aku tunggu</button>
   </div>
 </div>
 
-<!-- ══════════════════════════
-     PAGE 1 — LANDING
-══════════════════════════ -->
+<!-- PAGE 1 — LANDING -->
 <div class="page active" id="page1">
   <p class="p1-coords">RA 05h 34m 32s · DEC +22° 01′ · 22 MEI 2006</p>
 
@@ -749,7 +761,7 @@ a,button{cursor:none;}
     </div>
   </div>
 
-  <h1 class="p1-title">Hi, <em>Mimoo 🌙</em></h1>
+  <h1 class="p1-title">Hi, <em>Mimoo</em></h1>
   <p class="p1-subtitle">sebuah pesan dari balik bintang</p>
 
   <div class="astro-divider"><span>✦ coordinates locked ✦</span></div>
@@ -760,7 +772,7 @@ a,button{cursor:none;}
     <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">menit</span></div>
     <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">detik</span></div>
   </div>
-  <p class="age-badge" id="birthdayMsg">menuju 22 Mei ✦ ulang tahun ke-20</p>
+  <p class="age-badge" id="birthdayMsg">menuju hari dimana kamu mulai bersinar</p>
 
   <div class="orbit-system">
     <svg width="100%" height="clamp(50px,14vw,68px)" viewBox="0 0 140 68" style="max-width:160px;">
@@ -776,7 +788,7 @@ a,button{cursor:none;}
 
   <div class="btn-launch-wrap">
     <button class="btn-launch" onclick="handleLaunch()">
-      <span>✦ &nbsp; Buka Galaksi Kita &nbsp; ✦</span>
+      <span>✦ &nbsp; Buka Galaksi &nbsp; ✦</span>
     </button>
   </div>
 
@@ -789,9 +801,7 @@ a,button{cursor:none;}
   </div>
 </div>
 
-<!-- ══════════════════════════
-     PAGE 2 — GALLERY
-══════════════════════════ -->
+<!-- PAGE 2 — GALLERY -->
 <div class="page" id="page2">
   <div class="p2-header">
     <span class="p2-tag">✦ stellar archive ✦</span>
@@ -799,39 +809,45 @@ a,button{cursor:none;}
     <p class="p2-sub">setiap foto, sebuah bintang</p>
   </div>
 
+  <!-- HAPPY BIRTHDAY BANNER -->
+  <div class="hbd-banner">
+    <h2>🌙 Happy Birthday, Mimoo! 🌙</h2>
+    <p>✦ selamat ulang tahun ke-20, sayang ✦</p>
+  </div>
+
   <div class="astro-divider"><span>✦ peta bintang ✦</span></div>
 
   <div class="galaxy-grid" id="galleryGrid">
     <div class="star-card" data-idx="0" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=600&q=85" alt="nebula">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=600&q=85" alt="nebula"></div>
       <div class="card-caption">kenangan #001</div>
     </div>
     <div class="star-card" data-idx="1" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=85" alt="galaxy">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&q=85" alt="galaxy"></div>
       <div class="card-caption">kenangan #002</div>
     </div>
     <div class="star-card" data-idx="2" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&q=85" alt="aurora">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&q=85" alt="aurora"></div>
       <div class="card-caption">kenangan #003</div>
     </div>
     <div class="star-card" data-idx="3" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=600&q=85" alt="moon">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=600&q=85" alt="moon"></div>
       <div class="card-caption">kenangan #004</div>
     </div>
     <div class="star-card" data-idx="4" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600&q=85" alt="cosmos">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600&q=85" alt="cosmos"></div>
       <div class="card-caption">kenangan #005</div>
     </div>
     <div class="star-card" data-idx="5" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=600&q=85" alt="milky way">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=600&q=85" alt="milky way"></div>
       <div class="card-caption">kenangan #006</div>
     </div>
     <div class="star-card" data-idx="6" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?w=600&q=85" alt="stars">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?w=600&q=85" alt="stars"></div>
       <div class="card-caption">kenangan #007</div>
     </div>
     <div class="star-card" data-idx="7" onclick="openLightbox(this)">
-      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=85" alt="deep sky">
+      <div class="img-wrap"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=85" alt="deep sky"></div>
       <div class="card-caption">kenangan #008</div>
     </div>
   </div>
@@ -847,9 +863,7 @@ a,button{cursor:none;}
   </div>
 </div>
 
-<!-- ══════════════════════════
-     PAGE 3 — LETTER
-══════════════════════════ -->
+<!-- PAGE 3 — LETTER -->
 <div class="page" id="page3">
   <div class="p3-header">
     <h1 class="p3-title">Surat dari Bintang</h1>
@@ -891,12 +905,12 @@ a,button{cursor:none;}
             <div class="letter-date">22 MEI · STELLAR LOG · TAHUN KE-20</div>
             <div class="letter-opening">Selamat Ulang Tahun, Sayang 🌙</div>
             <p>hari ini, 22 Mei — tepat dua puluh tahun yang lalu, alam semesta memutuskan untuk menambahkan satu bintang baru ke dalam galaksinya. dan bintang itu adalah kamu.</p>
-            <p>tahukah kamu, sayang — para astronom bilang bahwa setiap atom di dalam tubuhmu terbentuk dari ledakan supernova miliaran tahun yang lalu. <em>kamu secara harfiah terbuat dari bintang.</em> dan itu bukan sekadar puisi — itu sains. dan itulah sebabnya kamu bersinar, bahkan di hari-hari ketika kamu tidak menyadarinya.</p>
-            <p>cahaya bintang yang paling jauh butuh ribuan tahun cahaya untuk sampai ke mata kita. tapi kebaikanmu, tawamu, dan hangatnya kehadiranmu — semuanya sampai ke hatiku tanpa jeda, tanpa jarak, tanpa pernah terhalang apapun.</p>
-            <p>di tahun ke-20 ini, kamu sudah mengorbit matahari dua puluh kali. dua puluh kali bumi membawamu melewati musim-musim, melewati hari-hari yang berat dan hari-hari yang indah. dan setiap orbitnya membentukmu menjadi orang yang semakin luar biasa, sayang.</p>
-            <p>aku tidak tahu ada berapa bintang di galaksi Bima Sakti. para ilmuwan bilang mungkin dua ratus miliar. tapi aku tahu satu hal pasti — dari semua yang ada di langit itu, tidak ada yang pernah membuatku berhenti dan takjub seperti caramu ada di dunia ini.</p>
-            <p>semoga di tahun ke-20 ini, orbit hidupmu penuh dengan hal-hal yang indah. semoga gravitasi yang mengelilingimu hanya gravitasi dari cinta, dari tawa, dan dari orang-orang yang benar-benar menghargaimu. dan kalau suatu hari langitmu terasa gelap — ingat, sayang, bahkan bintang pun perlu kegelapan untuk bisa terlihat bersinar.</p>
-            <p>aku di sini. selalu, seperti bintang utara yang selalu ada di tempatnya — tidak pernah bergerak, tidak pernah pergi. <em>selamat ulang tahun, sayang. kamu adalah konstelasiku yang paling favorit.</em> 💙🌌</p>
+            <p>tahukah kamu, sayang — para astronom menghabiskan hidup mereka mempelajari cahaya bintang, mencari makna di balik kilaunya. tapi mereka tidak pernah benar-benar tahu rasanya… sampai aku melihatmu. karena kamu bukan sekadar seperti bintang — <em>kamu memang bintang itu sendiri.</em></p>
+            <p>cahaya bintang yang paling jauh butuh ribuan tahun untuk sampai ke mata kita. tapi kebaikanmu, tawamu, dan hangatnya kehadiranmu — semuanya sampai ke hatiku tanpa jeda, tanpa jarak, tanpa pernah terhalang apapun.</p>
+            <p>di tahun ke-20 ini, kamu sudah mengorbit matahari dua puluh kali. dua puluh perjalanan panjang melewati musim, melewati hari-hari yang berat dan hari-hari yang indah. dan di setiap orbitnya, kamu bersinar semakin terang — bukan karena berubah menjadi sesuatu yang lain, tapi karena kamu semakin menjadi dirimu sendiri.</p>
+            <p>aku tidak tahu ada berapa bintang di galaksi Bima Sakti. para ilmuwan bilang mungkin dua ratus miliar. tapi aku tahu satu hal pasti — dari semua yang ada di langit itu, tidak ada yang pernah membuatku berhenti, terdiam, dan takjub… seperti caramu ada di dunia ini.</p>
+            <p>semoga di tahun ke-20 ini, orbit hidupmu dipenuhi hal-hal yang indah. semoga gravitasi yang mengelilingimu hanyalah cinta, tawa, dan orang-orang yang benar-benar menghargaimu. dan kalau suatu hari langitmu terasa gelap — ingat, sayang, bintang tidak pernah berhenti bersinar. hanya saja, terkadang kita butuh kegelapan untuk menyadarinya.</p>
+            <p>aku di sini. selalu. seperti bintang utara — tetap di tempatnya, tidak pernah hilang, tidak pernah pergi. <em>selamat ulang tahun, sayang. kamu adalah bintang yang paling terang di semestaku.</em> 💙🌌</p>
             <div class="letter-sign">— dari yang selalu di orbitmu 🌙</div>
           </div>
           <button class="close-letter-btn" id="closeLetterBtn" onclick="toggleLetter()">✕ tutup surat</button>
@@ -940,9 +954,8 @@ initStars();
 function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.alpha+=s.speed*s.dir;if(s.alpha>=1||s.alpha<=.08)s.dir*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=s.color;ctx.globalAlpha=s.alpha;ctx.fill();});ctx.globalAlpha=1;requestAnimationFrame(drawStars);}
 drawStars();
 
-/* ── PARALLAX ── */
-document.addEventListener('mousemove',e=>{const px=(e.clientX/innerWidth-.5)*18;const py=(e.clientY/innerHeight-.5)*18;document.getElementById('nebulaBg').style.transform=`translate(${px}px,${py}px)`;});
-window.addEventListener('deviceorientation',e=>{if(e.beta===null)return;document.getElementById('nebulaBg').style.transform=`translate(${(e.gamma/45)*12}px,${(e.beta/90)*10}px)`;});
+/* ── PARALLAX REMOVED — background is fixed ── */
+/* nebulaBg no longer moves on mouse/device */
 
 /* ── SPARKLES ── */
 const SPARKS=['✦','★','✧','⊹','·','✶'];
@@ -973,16 +986,16 @@ setTimeout(launchShootingStar,800);setTimeout(launchShootingStar,2600);
 /* ── COUNTDOWN (main + lock) ── */
 function updateCountdown(){
   const now=new Date();
-  const target=new Date(now.getFullYear(),4,22,0,0,0);
-  if(target<=now) target.setFullYear(target.getFullYear()+1);
-  const diff=target-now;
+  const target=new Date(2026,4,22,0,0,0); // May 22 2026
   const bMsg=document.getElementById('birthdayMsg');
 
-  if(diff<=0){
+  if(now>=target){
     ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>document.getElementById(id).textContent='00');
     bMsg.textContent='🎉 Selamat Ulang Tahun ke-20, Sayang! 🎉';
     bMsg.style.color='var(--gold)';
+    ['lc-days','lc-hours','lc-mins','lc-secs'].forEach(id=>document.getElementById(id).textContent='00');
   } else {
+    const diff=target-now;
     const d=Math.floor(diff/86400000);
     const h=Math.floor((diff%86400000)/3600000);
     const m=Math.floor((diff%3600000)/60000);
@@ -991,7 +1004,6 @@ function updateCountdown(){
     document.getElementById('cd-hours').textContent=String(h).padStart(2,'0');
     document.getElementById('cd-mins').textContent=String(m).padStart(2,'0');
     document.getElementById('cd-secs').textContent=String(s).padStart(2,'0');
-    // lock overlay countdown
     document.getElementById('lc-days').textContent=String(d).padStart(2,'0');
     document.getElementById('lc-hours').textContent=String(h).padStart(2,'0');
     document.getElementById('lc-mins').textContent=String(m).padStart(2,'0');
@@ -1004,8 +1016,7 @@ updateCountdown();setInterval(updateCountdown,1000);
 function buildLockStars(){
   const container=document.getElementById('lockStars');
   for(let i=0;i<18;i++){
-    const s=document.createElement('div');
-    s.className='lock-star';
+    const s=document.createElement('div');s.className='lock-star';
     const size=1+Math.random()*2.5;
     s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${1.2+Math.random()*2.5}s;animation-delay:${Math.random()*3}s;`;
     container.appendChild(s);
@@ -1013,32 +1024,56 @@ function buildLockStars(){
 }
 buildLockStars();
 
-/* ── MUSIC ── */
-let musicUnlocked=false;
+/* ── MUSIC — only plays from page2 onward ── */
+let musicReady=false;
 const music=document.getElementById('bgMusic');
 const musicBtn=document.getElementById('musicBtn');
 const musicIcon=document.getElementById('musicIcon');
 music.volume=.28;
+
 function renderMusicState(){
-  if(!music.paused){musicBtn.classList.add('playing');musicIcon.innerHTML='<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>';}
-  else{musicBtn.classList.remove('playing');musicIcon.textContent='♪';}
+  if(!music.paused){
+    musicBtn.classList.add('playing');
+    musicIcon.innerHTML='<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>';
+  } else {
+    musicBtn.classList.remove('playing');
+    musicIcon.textContent='♪';
+  }
 }
-function tryPlay(){const t=parseFloat(localStorage.getItem('musicTime')||'0');if(t)music.currentTime=t;music.play().then(()=>{musicUnlocked=true;localStorage.setItem('musicPlaying','true');renderMusicState();}).catch(()=>{});}
-musicBtn.addEventListener('click',()=>{if(music.paused)tryPlay();else{music.pause();localStorage.setItem('musicPlaying','false');renderMusicState();}});
-document.addEventListener('click',()=>{if(!musicUnlocked&&localStorage.getItem('musicPlaying')!=='false')tryPlay();},{once:true});
+
+function tryPlay(){
+  const t=parseFloat(localStorage.getItem('musicTime')||'0');
+  if(t) music.currentTime=t;
+  music.play().then(()=>{
+    musicReady=true;
+    localStorage.setItem('musicPlaying','true');
+    renderMusicState();
+  }).catch(()=>{});
+}
+
+function tryStop(){
+  music.pause();
+  localStorage.setItem('musicPlaying','false');
+  renderMusicState();
+}
+
+musicBtn.addEventListener('click',()=>{
+  if(music.paused) tryPlay();
+  else tryStop();
+});
+
 music.addEventListener('timeupdate',()=>localStorage.setItem('musicTime',music.currentTime));
 
 /* ── UNLOCK CHECK ── */
 function isUnlocked(){
   const now=new Date();
-  const target=new Date(2026,4,22,0,0,0); // May 22 2026
+  const target=new Date(2026,4,22,0,0,0);
   return now>=target;
 }
 
 /* ── LOCK OVERLAY ── */
 function showLockOverlay(){document.getElementById('lockOverlay').classList.add('show');}
 function closeLockOverlay(){document.getElementById('lockOverlay').classList.remove('show');}
-// close on backdrop click
 document.getElementById('lockOverlay').addEventListener('click',function(e){if(e.target===this)closeLockOverlay();});
 
 function handleLaunch(){
@@ -1053,29 +1088,26 @@ function handleNavDot(page){
 /* ── NAVIGATION ── */
 function goTo(pageId){
   if((pageId==='page2'||pageId==='page3')&&!isUnlocked()){showLockOverlay();return;}
+
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
   window.scrollTo(0,0);
-  // dots
+
+  // update dots per page
   const pages=['page1','page2','page3'];
   const idx=pages.indexOf(pageId);
-  document.querySelectorAll('.page-dot').forEach((d,i)=>{
-    d.classList.toggle('active',i===idx||i===idx+1&&pageId==='page1');
-  });
-  // reset and set per-page
-  document.querySelectorAll('.page-dot').forEach(d=>d.classList.remove('active'));
-  document.querySelectorAll(`#${pageId} .page-dot`).forEach((d,i)=>{
-    if(i===idx) d.classList.add('active');
-  });
-  // simpler approach: mark correct dot in each page
-  const allDots=document.querySelectorAll('.page-indicator');
-  allDots.forEach(ind=>{
+  document.querySelectorAll('.page-indicator').forEach(ind=>{
     const parentPage=ind.closest('.page');
     if(parentPage&&parentPage.id===pageId){
       const dots=ind.querySelectorAll('.page-dot');
       dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
     }
   });
+
+  /* ── START MUSIC when entering page2 for the first time ── */
+  if(pageId==='page2'&&!musicReady&&localStorage.getItem('musicPlaying')!=='false'){
+    setTimeout(()=>tryPlay(),300);
+  }
 }
 
 /* ── SWIPE ── */
@@ -1105,7 +1137,7 @@ function lightboxNav(dir){lbIndex=(lbIndex+dir+lbImages.length)%lbImages.length;
 document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
 document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').classList.contains('open')){if(e.key==='ArrowRight')lightboxNav(1);if(e.key==='ArrowLeft')lightboxNav(-1);if(e.key==='Escape')closeLightbox();}});
 
-/* ── LETTER TOGGLE ── */
+/* ── LETTER TOGGLE — NO CONFETTI ── */
 let letterOpen=false;
 function toggleLetter(){
   letterOpen=!letterOpen;
@@ -1124,8 +1156,8 @@ function toggleLetter(){
     setTimeout(()=>{
       content.classList.add('open');
       closeBtn.classList.add('visible');
-      launchConfetti();
       restart.style.opacity='1';
+      // NO confetti / no launchConfetti()
     },700);
   } else {
     content.classList.remove('open');
@@ -1137,27 +1169,6 @@ function toggleLetter(){
       label.style.opacity='1';
     },600);
   }
-}
-
-/* ── CONFETTI ── */
-function launchConfetti(){
-  const cnv=document.getElementById('confettiCanvas');
-  const c=cnv.getContext('2d');
-  cnv.width=innerWidth;cnv.height=innerHeight;
-  const colors=['#3d7be4','#a8c8ff','#f0d080','#ffffff','#e87aa8','#9b59f0','#d6e8ff'];
-  const shapes=['✦','★','✧','·','⋆','✶'];
-  const pieces=Array.from({length:140},()=>({x:Math.random()*cnv.width,y:-20-Math.random()*280,s:8+Math.random()*14,color:colors[Math.floor(Math.random()*colors.length)],shape:shapes[Math.floor(Math.random()*shapes.length)],speed:.8+Math.random()*2.8,tilt:Math.random()*Math.PI*2,tiltSpd:.03+Math.random()*.07,d:Math.random()*80,alpha:.7+Math.random()*.3}));
-  let frame=0,angle=0;
-  function draw(){
-    c.clearRect(0,0,cnv.width,cnv.height);angle+=.007;frame++;
-    pieces.forEach((p,i)=>{
-      p.tilt+=p.tiltSpd;p.y+=p.speed;p.x+=Math.sin(angle+p.d)*.9;
-      c.globalAlpha=p.alpha;c.fillStyle=p.color;c.save();c.translate(p.x,p.y);c.rotate(p.tilt);c.font=`${p.s}px serif`;c.fillText(p.shape,-p.s/2,p.s/2);c.restore();
-      if(p.y>cnv.height+30){pieces[i].y=-10;pieces[i].x=Math.random()*cnv.width;}
-    });
-    c.globalAlpha=1;if(frame<480)requestAnimationFrame(draw);else c.clearRect(0,0,cnv.width,cnv.height);
-  }
-  draw();
 }
 
 /* ── RESTART ── */
@@ -1183,7 +1194,7 @@ function restartAll(){
 
 /* ── INIT ── */
 window.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('musicPlaying')==='true')tryPlay();
+  // Music does NOT autoplay on page1 — only starts when reaching page2
 });
 </script>
 </body>
